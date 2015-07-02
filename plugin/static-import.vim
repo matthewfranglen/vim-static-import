@@ -1,6 +1,6 @@
 " static-import.vim - Add static imports
 " Maintainer:         Matthew Franglen
-" Version:            0.0.1
+" Version:            0.0.2
 
 if exists('g:loaded_static_import') || &compatible
     finish
@@ -24,10 +24,9 @@ endfunction
 command! AddStaticImport call g:AddStaticImport()
 
 function s:FindStaticImports(word)
-    let l:cd_cmd = 'cd ' . g:static_import_search_dir
-    let l:search_cmd = g:static_import_search_cmd . ' ' . shellescape(a:word) . ' *'
+    let l:search_cmd = g:static_import_search_cmd . ' ' . shellescape(a:word) . ' ' . g:static_import_search_dir . '/*'
     let l:filter_cmd = 'grep "import static" | sort | uniq'
-    let l:command = l:cd_cmd . ' ; ' . l:search_cmd . ' | ' . l:filter_cmd
+    let l:command = l:search_cmd . ' | ' . l:filter_cmd
 
     return split(system(l:command), '\[\r\n\]')
 endfunction
