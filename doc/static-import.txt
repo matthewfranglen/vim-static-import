@@ -1,0 +1,49 @@
+*static-import.txt*    Add Java static imports
+
+==============================================================================
+Author:  Matthew Franglen <matthew.franglen+stimport@gmail.com> *shell-author*
+License: Same terms as Vim itself (see |license|)
+
+==============================================================================
+INTRODUCTION
+
+This plugin allows you to add a static import to the current file based on the
+word under the cursor. This searches for another use of the word in an import
+and then adds that to the current file.
+
+:AddStaticImport                                             *:AddStaticImport*
+
+    This function will search for the current word under the cursor. If that is
+    found as a static import then it will be copied and added to the current
+    file.
+
+    You can bind this command to a key. For example:
+
+        nnoremap <leader>I :AddStaticImport
+
+g:static_import_search_dir                         *g:static_import_search_dir*
+
+    This is the path that the search is issued from. This can be changed at any
+    point and will take effect from that point onwards.
+
+    This defaults to the folder that you were in when you loaded this plugin.
+
+g:static_import_search_cmd                         *g:static_import_search_cmd*
+
+    This is the command that is run to perform the initial search for the
+    static imports. This should only output the matching lines. This will be
+    further filtered by grep and is only passed the word under the cursor.
+
+    It is assumed that this behaves similar to grep. An example will clarify
+    this:
+
+        grep --recursive ... someStaticImport /a/path/*
+
+    Here the someStaticImport is the word being searched for and the /a/path
+    path comes from the g:static_import_search_dir.
+
+    This defaults to:
+
+        grep --no-filename --no-messages --recursive --binary-files=without-match
+
+    It is a very good idea to exclude binary files!
