@@ -1,6 +1,6 @@
 " static-import.vim - Add static imports
 " Maintainer:         Matthew Franglen
-" Version:            0.0.1
+" Version:            0.0.2
 
 if exists('g:loaded_static_import') || &compatible
     finish
