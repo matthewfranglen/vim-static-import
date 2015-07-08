@@ -19,7 +19,7 @@ function! g:LoadStaticImportCommand()
     command! -buffer AddStaticImport call s:AddStaticImport()
 endfunction
 
-function! s:DisplayNotLoadedFailure()
+function s:DisplayNotLoadedFailure()
     echo "AddStaticImport has not been loaded as this is not a java file.\nUse :LoadStaticImportCommand to load it manually"
 endfunction
 
@@ -27,7 +27,7 @@ command! LoadStaticImportCommand call g:LoadStaticImportCommand()
 command! AddStaticImport call s:DisplayNotLoadedFailure()
 autocmd FileType java call g:LoadStaticImportCommand()
 
-function! s:AddStaticImport()
+function s:AddStaticImport()
     let l:word = s:GetCurrentWord()
     let l:imports = s:FindStaticImports(l:word)
 
