@@ -15,7 +15,7 @@ if ! exists('g:static_import_search_cmd')
     let g:static_import_search_cmd = 'grep --no-filename --no-messages --recursive --binary-files=without-match'
 endif
 
-function g:AddStaticImport()
+function! g:AddStaticImport()
     let l:word = s:GetCurrentWord()
     let l:imports = s:FindStaticImports(l:word)
 
