@@ -24,7 +24,13 @@ function g:AddStaticImport()
         return
     endif
 
-    call s:AddImport(l:imports[0])
+    if len(l:imports) == 1
+        let l:import = l:imports[0]
+    else
+        let l:import = s:QueryUserForStaticImport(l:imports)
+    endif
+
+    call s:AddImport(l:import)
     call s:SortImports()
 endfunction
 command! AddStaticImport call g:AddStaticImport()
@@ -34,7 +40,7 @@ function s:FindStaticImports(word)
     let l:filter_cmd = 'grep "import static" | sort | uniq'
     let l:command = l:search_cmd . ' | ' . l:filter_cmd
 
-    return split(system(l:command), '\[\r\n\]')
+    return split(system(l:command), '\n\+')
 endfunction
 
 function s:AddImport(import)
@@ -58,11 +64,21 @@ function s:DisplaySearchFailure(word)
     echo 'Unable to find any static import for "' . a:word . '"'
 endfunction
 
-function s:DisplayAvailableStaticImports(imports)
-
+function s:QueryUserForStaticImport(imports)
+    let l:options = ['Select import:'] + s:PrefixListEntriesWithIndex(a:imports)
+    let l:index = inputlist(l:options)
+    return a:imports[l:index - 1]
 endfunction
 
-function s:DismissStaticImportDisplay()
+function s:PrefixListEntriesWithIndex(list)
+    let l:result = []
+    let l:index = 1
 
+    for l:entry in a:list
+        let l:result = l:result + [l:index . '. ' . l:entry]
+        let l:index = l:index + 1
+    endfor
+
+    return l:result
 endfunction
 
