@@ -15,7 +15,19 @@ if ! exists('g:static_import_search_cmd')
     let g:static_import_search_cmd = 'grep --no-filename --no-messages --recursive --binary-files=without-match'
 endif
 
-function! g:AddStaticImport()
+function! g:LoadStaticImportCommand()
+    command! -buffer AddStaticImport call s:AddStaticImport()
+endfunction
+
+function! s:DisplayNotLoadedFailure()
+    echo "AddStaticImport has not been loaded as this is not a java file.\nUse :LoadStaticImportCommand to load it manually"
+endfunction
+
+command! LoadStaticImportCommand call g:LoadStaticImportCommand()
+command! AddStaticImport call s:DisplayNotLoadedFailure()
+autocmd FileType java call g:LoadStaticImportCommand()
+
+function! s:AddStaticImport()
     let l:word = s:GetCurrentWord()
     let l:imports = s:FindStaticImports(l:word)
 
@@ -33,7 +45,6 @@ function! g:AddStaticImport()
     call s:AddImport(l:import)
     call s:SortImports()
 endfunction
-command! AddStaticImport call g:AddStaticImport()
 
 function s:FindStaticImports(word)
     let l:search_cmd = g:static_import_search_cmd . ' ' . shellescape(a:word) . ' ' . g:static_import_search_dir . '/*'
