@@ -20,7 +20,7 @@ function! g:LoadStaticImportCommand()
 endfunction
 
 function s:DisplayNotLoadedFailure()
-    echo "AddStaticImport has not been loaded as this is not a java file.\nUse :LoadStaticImportCommand to load it manually"
+    echo 'AddStaticImport has not been loaded as this is not a java file.\nUse :LoadStaticImportCommand to load it manually'
 endfunction
 
 command! LoadStaticImportCommand call g:LoadStaticImportCommand()
