@@ -18,6 +18,12 @@ endif
 function g:AddStaticImport()
     let l:word = s:GetCurrentWord()
     let l:imports = s:FindStaticImports(l:word)
+
+    if len(l:imports) == 0
+        call s:DisplaySearchFailure(l:word)
+        return
+    endif
+
     call s:AddImport(l:imports[0])
     call s:SortImports()
 endfunction
@@ -46,6 +52,10 @@ endfunction
 
 function s:GetCurrentWord()
     return expand('<cword>')
+endfunction
+
+function s:DisplaySearchFailure(word)
+    echo 'Unable to find any static import for "' . a:word . '"'
 endfunction
 
 function s:DisplayAvailableStaticImports(imports)
